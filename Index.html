@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RO-TOPIA Alpha</title>
+    <style>
+        /* CORE 2012 THEME */
+        body { font-family: Arial, Helvetica, sans-serif; background-color: #e3e3e3; margin: 0; padding: 0; }
+        
+        /* BLUE GRADIENT HEADER */
+        .header { 
+            background: linear-gradient(to bottom, #72b0ff, #2989ff); 
+            padding: 10px 0; 
+            border-bottom: 3px solid #004488; 
+            text-align: center; 
+        }
+        .logo { 
+            color: white; font-size: 34px; font-weight: bold; 
+            text-shadow: 2px 2px 0 #ff0000, 3px 3px 0 #000; 
+            letter-spacing: 1px;
+        }
+
+        /* NAVIGATION BAR */
+        .nav-bar { background: rgba(0,0,0,0.2); display: flex; justify-content: center; gap: 20px; padding: 6px 0; }
+        .nav-link { color: white; font-size: 11px; text-decoration: none; text-transform: uppercase; cursor: pointer; font-weight: bold; }
+        .nav-link:hover { text-decoration: underline; }
+
+        /* SIGN IN SCREEN */
+        #login-page { padding: 80px 0; text-align: center; }
+        .login-card { 
+            background: white; border: 1px solid #ccc; padding: 30px; 
+            width: 320px; margin: 0 auto; box-shadow: 6px 6px 0 rgba(0,0,0,0.05); 
+        }
+        .user-input { width: 90%; padding: 12px; margin-bottom: 15px; border: 1px solid #aaa; font-size: 16px; }
+        .play-btn { 
+            background: #00aa00; color: white; padding: 15px; width: 100%; 
+            border: none; font-weight: bold; cursor: pointer; 
+            border-bottom: 4px solid #007700; font-size: 18px; 
+        }
+
+        /* MAIN DASHBOARD LAYOUT */
+        #main-site { display: none; max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+        .layout { display: grid; grid-template-columns: 220px 1fr 200px; gap: 20px; }
+
+        /* BOXES */
+        .white-box { background: white; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+        .box-title { 
+            background: #f2f2f2; border-bottom: 1px solid #ccc; 
+            margin: -10px -10px 10px -10px; padding: 8px 10px; 
+            font-size: 13px; font-weight: bold; color: #333;
+        }
+
+        /* AVATAR PREVIEW */
+        .avatar-frame { 
+            width: 100%; height: 230px; background: #c5d9f1; 
+            border: 1px solid #999; margin-bottom: 10px; 
+            display: flex; align-items: center; justify-content: center; 
+        }
+        .noob-char { width: 60px; height: 90px; background: #004488; position: relative; border: 1px solid #003366; }
+        .noob-head { width: 30px; height: 30px; background: #ffff00; position: absolute; top: -35px; left: 14px; border: 1px solid #ccaa00; border-radius: 4px; }
+
+        /* GAME GRID */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .game-card { border: 1px solid #eee; padding: 5px; text-align: left; transition: 0.2s; cursor: pointer; }
+        .game-card:hover { border-color: #2989ff; background: #f9f9f9; }
+        .game-thumb { width: 100%; height: 95px; background: #ddd; margin-bottom: 6px; }
+        .game-name { font-size: 12px; color: #0055aa; font-weight: bold; }
+
+        /* FRIEND LIST */
+        .friend { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f2f2f2; }
+        .friend-img { width: 35px; height: 35px; background: #eee; border: 1px solid #ccc; }
+        .friend-name { font-size: 12px; color: #0055aa; font-weight: bold; }
+
+        /* PAGES */
+        .page { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">RO-TOPIA</div>
+        <div class="nav-bar" id="top-nav" style="display:none;">
+            <span class="nav-link" onclick="showPage('home')">Home</span>
+            <span class="nav-link" onclick="showPage('games')">Games</span>
+            <span class="nav-link" onclick="showPage('catalog')">Catalog</span>
+            <span class="nav-link">Develop</span>
+        </div>
+    </div>
+
+    <div id="login-page">
+        <div class="login-card">
+            <h2 style="margin-top:0; color:#333;">Sign In</h2>
+            <input type="text" id="username-input" class="user-input" placeholder="Username">
+            <button onclick="login()" class="play-btn">PLAY NOW</button>
+        </div>
+    </div>
+
+    <div id="main-site">
+        <div class="layout">
+            
+            <div class="side-col">
+                <div class="white-box">
+                    <div class="avatar-frame"><div class="noob-char"><div class="noob-head"></div></div></div>
+                    <b id="display-user" style="color:#2989ff; font-size:16px;">User</b>
+                </div>
+                <div class="white-box">
+                    <div class="box-title">Settings</div>
+                    <div style="font-size:13px; color:#0055aa;">
+                        <p style="cursor:pointer; border-bottom:1px solid #eee; padding-bottom:5px;">Customize Avatar</p>
+                        <p style="cursor:pointer; border-bottom:1px solid #eee; padding-bottom:5px;">Inventory</p>
+                        <p style="cursor:pointer; color:red;" onclick="location.reload()">Logout</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-col">
+                <div id="home" class="page active">
+                    <div class="white-box">
+                        <div class="box-title">Hello, <span id="welcome-name">Player</span>!</div>
+                        <p style="font-size:14px; color:#555;">Welcome to the Ro-Topia Alpha. Check out the latest games below.</p>
+                    </div>
+                    <div class="white-box">
+                        <div class="box-title">Popular Games</div>
+                        <div class="game-grid">
+                            <div class="game-card"><div class="game-thumb" style="background:#72b0ff;"></div><div class="game-name">Work at a Pizza Place</div></div>
+                            <div class="game-card"><div class="game-thumb" style="background:#ffaa00;"></div><div class="game-name">Natural Disaster</div></div>
+                            <div class="game-card"><div class="game-thumb" style="background:#44aa44;"></div><div class="game-name">Speed Run 4</div></div>
+                            <div class="game-card"><div class="game-thumb" style="background:#555;"></div><div class="game-name">Catalog Heaven</div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="games" class="page">
+                    <div class="white-box"><div class="box-title">All Games</div><p>Games list coming soon...</p></div>
+                </div>
+
+                <div id="catalog" class="page">
+                    <div class="white-box"><div class="box-title">Catalog</div><p>Items coming soon...</p></div>
+                </div>
+            </div>
+
+            <div class="side-col">
+                <div class="white-box">
+                    <div class="box-title">Friends (Online)</div>
+                    <div class="friend"><div class="friend-img"></div><div class="friend-name">StoneyMcBoney</div></div>
+                    <div class="friend"><div class="friend-img"></div><div class="friend-name">Build_Master</div></div>
+                    <div class="friend"><div class="friend-img"></div><div class="friend-name">Noob_king</div></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // LOGIN LOGIC
+        function login() {
+            var name = document.getElementById('username-input').value;
+            if(name.length >= 2) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-site').style.display = 'block';
+                document.getElementById('top-nav').style.display = 'flex';
+                document.getElementById('display-user').innerText = name;
+                document.getElementById('welcome-name').innerText = name;
+            } else {
+                alert("Please enter a username!");
+            }
+        }
+
+        // NAVIGATION LOGIC (Fixes your red error!)
+        function showPage(pageId) {
+            // Hide all pages
+            var pages = document.getElementsByClassName('page');
+            for(var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
+            // Show the clicked page
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
